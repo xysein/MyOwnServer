@@ -1,18 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Main page!</title>
 </head>
 <body bgcolor="ffffff">
 <div>
-    <center>
-        Main page is here!
-    </center>
-    The second line
     <div>
-        <a href="greeting">This is page 2</a>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
     </div>
+    <div>Hello, user!</div>
+    <div>
+        <form method="post">
+            <input type="text" name="text" placeholder="Message">
+            <input type="text" name="tag" placeholder="Tag">
+            <button type="submit">Add</button>
+        </form>
+    </div>
+    <center>Main page is here!</center>
+    <h1>Message list</h1>
+    <form method="post" action="filter">
+        <input type="text" name="filter" placeholder="Tag"/>
+        <button type="submit">Find</button>
+    </form>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Text</th>
+            <th>Tag</th>
+        </tr>
+        <tr th:each="message : ${messages}">
+            <td th:text="${message.id}"></td>
+            <td th:text="${message.text}"></td>
+            <td th:text="${message.tag}"></td>
+        </tr>
+    </table>
+
 </div>
 </body>
 </html>
