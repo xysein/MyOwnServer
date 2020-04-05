@@ -17,10 +17,6 @@ public class MainController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @GetMapping("/")
-    public String greeting(Model model) {
-        return "greeting";
-    }
 
     @GetMapping("/main")
     public String main(Model model) {
