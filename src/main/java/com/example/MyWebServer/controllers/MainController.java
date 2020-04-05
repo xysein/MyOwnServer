@@ -1,8 +1,10 @@
 package com.example.MyWebServer.controllers;
 
 import com.example.MyWebServer.entities.Message;
+import com.example.MyWebServer.entities.User;
 import com.example.MyWebServer.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,12 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String addMessage(@RequestParam String text, @RequestParam String tag, Model model) {
-        messageRepository.save(new Message(text, tag));
+    public String addMessage(
+            @AuthenticationPrincipal User user,
+            @RequestParam String text,
+            @RequestParam String tag, Model model) {
+
+        messageRepository.save(new Message(text, tag, user));
 
         model.addAttribute("messages", messageRepository.findAll());
 

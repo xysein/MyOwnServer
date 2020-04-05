@@ -1,9 +1,12 @@
 package com.example.MyWebServer.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Message {
@@ -11,6 +14,10 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
 
     private String text;
     private String tag;
@@ -21,6 +28,24 @@ public class Message {
     public Message(String text, String tag) {
         this.text = text;
         this.tag = tag;
+    }
+
+    public Message(String text, String tag, User author) {
+        this.text = text;
+        this.tag = tag;
+        this.author = author;
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getName() : "<none>";
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public Integer getId() {
